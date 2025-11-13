@@ -1,0 +1,46 @@
+<!-- core/templates/core/home.html -->
+{% extends 'core/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <section class="profile-card card">
+    <div class="profile-top">
+      <div>
+        <h2>Hello, {{ student.first_name }}!</h2>
+        <p class="muted">{{ student.level|title }} • {{ student.objective|cut:"_"|title }}</p>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-title">Current plan</div>
+        <div class="stat-value">{{ plan.name }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Days trained (month)</div>
+        <div class="stat-value">{{ days_trained }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Next session</div>
+        <div class="stat-value">Tomorrow • 18:00</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Last trainings</h3>
+      <ul class="list">
+        {% for t in last_trainings %}
+          <li>
+            <div class="list-title">{{ t.title }}</div>
+            <div class="muted small">{{ t.date }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="actions">
+      <a class="btn primary full" href="{% url 'core:trainings' %}">View training library</a>
+      <a class="btn ghost full" href="{% url 'core:logout' %}">Logout</a>
+    </div>
+  </section>
+{% endblock %}
+

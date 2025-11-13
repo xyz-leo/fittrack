@@ -1,0 +1,21 @@
+<!-- core/templates/core/trainings.html -->
+{% extends 'core/base.html' %}
+{% block title %}Trainings{% endblock %}
+{% block content %}
+  <section class="card">
+    <h2>Training library</h2>
+    <ul class="trainings-list">
+      {% for t in trainings %}
+      <li class="training">
+        <h4>{{ t.title }}</h4>
+        <p class="muted small">{{ t.description }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="actions">
+      <a class="btn ghost full" href="{% url 'core:home' %}">Back to home</a>
+    </div>
+  </section>
+{% endblock %}
+

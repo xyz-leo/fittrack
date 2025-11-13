@@ -1,0 +1,14 @@
+<!-- core/templates/core/landing.html -->
+{% extends 'core/base.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <section class="hero">
+    <h1>Train smarter. Track progress.</h1>
+    <p>Simple mobile-first prototype for your gym app demo.</p>
+    <div class="actions">
+      <a class="btn primary" href="{% url 'core:register' %}">Create account</a>
+      <a class="btn ghost" href="{% url 'core:login' %}">Login</a>
+    </div>
+  </section>
+{% endblock %}
+

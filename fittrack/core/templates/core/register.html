@@ -1,0 +1,59 @@
+<!-- core/templates/core/register.html -->
+{% extends 'core/base.html' %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+  <section class="card form-card">
+    <h2>Create account</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <!-- Render fields manually for better mobile styling -->
+      {{ form.non_field_errors }}
+      <label>Full name
+        {{ form.full_name }}
+      </label>
+
+      <label>Email
+        {{ form.email }}
+      </label>
+
+      <label>Password
+        {{ form.password }}
+      </label>
+
+      <label>Confirm password
+        {{ form.password_confirm }}
+      </label>
+
+      <div class="two-columns">
+        <label>Height (cm)
+          {{ form.height_cm }}
+        </label>
+        <label>Weight (kg)
+          {{ form.weight_kg }}
+        </label>
+      </div>
+
+      <div class="two-columns">
+        <label>Age
+          {{ form.age }}
+        </label>
+        <label>Frequency / week
+          {{ form.frequency_per_week }}
+        </label>
+      </div>
+
+      <label>Level
+        {{ form.level }}
+      </label>
+
+      <label>Objective
+        {{ form.objective }}
+      </label>
+
+      <button class="btn primary" type="submit">Register</button>
+    </form>
+
+    <p class="muted">Already have an account? <a href="{% url 'core:login' %}">Login</a></p>
+  </section>
+{% endblock %}
+
