@@ -29,7 +29,6 @@ jobs:
             - name: Obter última tag
               id: get_latest_tag
               run: |
-                  # Busca a última tag, se não existir usa v0.0.0
                   LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
                   echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
                   echo "Última tag: $LATEST_TAG"
@@ -37,14 +36,12 @@ jobs:
             - name: Determinar tipo de versão
               id: version_type
               run: |
-                  PR_TITLE="${{ github.event.pull_request.title }}"
                   PR_LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
 
-                  # Determina o tipo de versão baseado em labels ou título do PR
-                  if echo "$PR_LABELS" | grep -q "major\|breaking"; then
+                  if echo "$PR_LABELS" | grep -qi "major\|breaking"; then
                     echo "bump=major" >> $GITHUB_OUTPUT
                     echo "Tipo: MAJOR (breaking change)"
-                  elif echo "$PR_LABELS" | grep -q "feature\|enhancement"; then
+                  elif echo "$PR_LABELS" | grep -qi "feature\|enhancement"; then
                     echo "bump=minor" >> $GITHUB_OUTPUT
                     echo "Tipo: MINOR (nova feature)"
                   else
@@ -58,16 +55,12 @@ jobs:
                   LATEST_TAG="${{ steps.get_latest_tag.outputs.latest_tag }}"
                   BUMP_TYPE="${{ steps.version_type.outputs.bump }}"
 
-                  # Remove o 'v' do início
                   VERSION=${LATEST_TAG#v}
-
-                  # Separa os números da versão
                   IFS='.' read -ra VERSION_PARTS <<< "$VERSION"
                   MAJOR=${VERSION_PARTS[0]:-0}
                   MINOR=${VERSION_PARTS[1]:-0}
                   PATCH=${VERSION_PARTS[2]:-0}
 
-                  # Incrementa baseado no tipo
                   if [ "$BUMP_TYPE" == "major" ]; then
                     MAJOR=$((MAJOR + 1))
                     MINOR=0
@@ -85,97 +78,72 @@ jobs:
 
             - name: Gerar notas da release
               id: release_notes
+              env:
+                  NEW_VERSION: ${{ steps.new_version.outputs.new_version }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+                  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+                  OLD_VERSION: ${{ steps.get_latest_tag.outputs.latest_tag }}
+                  REPO: ${{ github.repository }}
               run: |
-                  NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
-                  PR_NUMBER="${{ github.event.pull_request.number }}"
-                  PR_TITLE="${{ github.event.pull_request.title }}"
-                  PR_AUTHOR="${{ github.event.pull_request.user.login }}"
-                  PR_BODY="${{ github.event.pull_request.body }}"
-
-                  # Cria as notas da release
-                  cat > release_notes.md << EOF
-                  ## 🚀 Release $NEW_VERSION
-
-                  ### Alterações
-
-                  **PR #$PR_NUMBER**: $PR_TITLE
-                  - Autor: @$PR_AUTHOR
-
-                  $PR_BODY
-
-                  ---
-
-                  **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.get_latest_tag.outputs.latest_tag }}...$NEW_VERSION
-                  EOF
-
-                  echo "Notas da release geradas"
+                  echo "## Release ${NEW_VERSION}" > release_notes.md
+                  echo "" >> release_notes.md
+                  echo "### Alteracoes" >> release_notes.md
+                  echo "" >> release_notes.md
+                  echo "PR #${PR_NUMBER}: ${PR_TITLE}" >> release_notes.md
+                  echo "- Autor: @${PR_AUTHOR}" >> release_notes.md
+                  echo "" >> release_notes.md
+                  echo "**Full Changelog**: https://github.com/${REPO}/compare/${OLD_VERSION}...${NEW_VERSION}" >> release_notes.md
 
             - name: Criar tag
               run: |
                   NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
                   git tag -a "$NEW_VERSION" -m "Release $NEW_VERSION"
                   git push origin "$NEW_VERSION"
-                  echo "Tag $NEW_VERSION criada e enviada"
 
             - name: Criar GitHub Release
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              uses: softprops/action-gh-release@v1
               with:
                   tag_name: ${{ steps.new_version.outputs.new_version }}
-                  release_name: Release ${{ steps.new_version.outputs.new_version }}
+                  name: Release ${{ steps.new_version.outputs.new_version }}
                   body_path: release_notes.md
                   draft: false
                   prerelease: false
 
             - name: Atualizar CHANGELOG.md
+              env:
+                  NEW_VERSION: ${{ steps.new_version.outputs.new_version }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+                  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
               run: |
-                  NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
                   DATE=$(date +%Y-%m-%d)
-                  PR_NUMBER="${{ github.event.pull_request.number }}"
-                  PR_TITLE="${{ github.event.pull_request.title }}"
-                  PR_AUTHOR="${{ github.event.pull_request.user.login }}"
 
-                  # Cria CHANGELOG.md se não existir
                   if [ ! -f CHANGELOG.md ]; then
-                    cat > CHANGELOG.md << EOF
-                  # Changelog
-
-                  Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
-
-                  O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
-                  e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
-
-                  EOF
+                    echo "# Changelog" > CHANGELOG.md
+                    echo "" >> CHANGELOG.md
+                    echo "Todas as mudancas notaveis neste projeto serao documentadas neste arquivo." >> CHANGELOG.md
+                    echo "" >> CHANGELOG.md
+                    echo "O formato e baseado em Keep a Changelog e este projeto adere ao Semantic Versioning." >> CHANGELOG.md
+                    echo "" >> CHANGELOG.md
                   fi
 
-                  # Cria entrada temporária
-                  cat > temp_entry.md << EOF
-                  ## [$NEW_VERSION] - $DATE
+                  echo "" > temp_entry.md
+                  echo "## [${NEW_VERSION}] - ${DATE}" >> temp_entry.md
+                  echo "" >> temp_entry.md
+                  echo "### Alteracoes" >> temp_entry.md
+                  echo "- PR #${PR_NUMBER}: ${PR_TITLE} (@${PR_AUTHOR})" >> temp_entry.md
+                  echo "" >> temp_entry.md
 
-                  ### Alterações
-                  - **PR #$PR_NUMBER**: $PR_TITLE ([@$PR_AUTHOR](https://github.com/$PR_AUTHOR))
-
-                  EOF
-
-                  # Insere a nova entrada após o cabeçalho
-                  sed -i '/^O formato é baseado/a\\n' CHANGELOG.md
-                  sed -i "/^O formato é baseado/r temp_entry.md" CHANGELOG.md
-
-                  # Limpa arquivo temporário
+                  sed -i '/Semantic Versioning/r temp_entry.md' CHANGELOG.md
                   rm temp_entry.md
-
-                  echo "CHANGELOG.md atualizado"
 
             - name: Commit e push do CHANGELOG
               run: |
                   git add CHANGELOG.md
-                  if git diff --staged --quiet; then
-                    echo "Nenhuma alteração no CHANGELOG"
-                  else
+                  if ! git diff --staged --quiet; then
                     git commit -m "docs: atualizar CHANGELOG para ${{ steps.new_version.outputs.new_version }} [skip ci]"
                     git push origin main
-                    echo "CHANGELOG commitado e enviado"
                   fi
 
             - name: Comentar no PR
