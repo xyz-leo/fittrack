@@ -1,158 +1,283 @@
 # FitTrack
 
-FitTrack is a prototype of a fitness tracking web application built with Django.  
-It was developed as a college project to demonstrate the structure of a simple, mobile-first web app for gyms and personal trainers.  
-The project focuses on clean design, essential functionality, and simplicity over production-level features.
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=flat&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-5.0+-092E20?style=flat&logo=django&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Prototipo-orange?style=flat)
+
+FitTrack é um protótipo de aplicação web para acompanhamento fitness desenvolvido com Django.  
+Foi criado como projeto acadêmico para demonstrar a estrutura de uma aplicação web simples e mobile-first voltada para academias e personal trainers.  
+O projeto foca em design limpo, funcionalidades essenciais e simplicidade.
 
 ---
 
-## Disclaimer
+## Integrantes do Projeto
 
-This project is a **prototype** developed as a **minimum viable product (MVP)** to demonstrate the structure and functionality of a fitness tracking web application built with Django.  
-It was created for educational and presentation purposes to showcase how core concepts such as user registration, basic navigation, and data display can be implemented within a web framework.  
+<!-- Adicione os nomes dos membros da equipe abaixo -->
 
-The system does **not include production-level features**, such as advanced authentication, security measures, or data persistence for real-world deployment.  
-Its goal is to illustrate a functional design flow and the integration of backend and frontend components in a clean, mobile-first interface.
+-   **[LEONARDO OLIVEIRA DA SILVA ALMEIDA]** - [GitHub](https://github.com/xyz-leo)
+-   **[MATEUS PRIETE RIBEIRO COPETTI]** - [GitHub](https://github.com)
+-   **[RODRIGO BREZOLIN BUQUERA]** - [GitHub](https://github.com/Rodrigo-Brezolin-Buquera)
+-   **[ROGERIO APARECIDO CORDEIRO DA SILVA]** - [GitHub](https://github.com/RogerioCordeiro)
 
----
-
-## Features
-
-- **User Registration**: Create a profile with name, height, weight, age, experience level, frequency, and fitness goal.
-- **Login Simulation**: Simple login and redirect to the user’s dashboard.
-- **User Home**: Displays mock data such as current plan, training days per month, and last workouts.
-- **Workout Page**: Lists static training information for demonstration.
-- **Responsive Design**: Mobile-first layout with a light theme and orange as the primary color.
+<!-- Adicione mais membros conforme necessário -->
 
 ---
 
-## Technologies Used
+## Sobre o Projeto
 
-- **Python 3.12+**
-- **Django 5+**
-- **HTML5 / CSS3**
-- **Poppins font (Google Fonts)**
+Este projeto é um **protótipo** desenvolvido como **produto mínimo viável (MVP)** para demonstrar a estrutura e funcionalidade de uma aplicação web de acompanhamento fitness construída com Django.  
+Foi criado para fins educacionais e de apresentação, mostrando como conceitos centrais como registro de usuários, navegação básica e exibição de dados podem ser implementados dentro de um framework web.
+
+O sistema **não inclui recursos de nível de produção**, como autenticação avançada, medidas de segurança robustas ou persistência de dados para implantação real.  
+Seu objetivo é ilustrar um fluxo de design funcional e a integração de componentes backend e frontend em uma interface limpa e mobile-first.
 
 ---
 
-## Project Structure
+## Funcionalidades
+
+-   **Registro de Usuários**: Criação de perfil com nome, altura, peso, idade, nível de experiência, frequência e objetivo fitness
+-   **Simulação de Login**: Login simples com redirecionamento para o dashboard do usuário
+-   **Página Inicial do Usuário**: Exibe dados mockados como plano atual, dias de treino por mês e últimos treinos
+-   **Página de Treinos**: Lista informações estáticas de treinamento para demonstração
+-   **Design Responsivo**: Layout mobile-first com tema claro e laranja como cor primária
+
+---
+
+## Tecnologias Utilizadas
+
+### Backend
+
+-   **Python 3.12+**
+-   **Django 5.0+**
+
+### Frontend
+
+-   **HTML5**
+-   **CSS3**
+-   **Fonte Poppins (Google Fonts)**
+
+### Banco de Dados
+
+-   **SQLite** (padrão do Django para desenvolvimento)
+
+---
+
+## Estrutura do Projeto
+
 ```
 fittrack/
 │
 ├── manage.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
 ├── fittrack/
-│ ├── settings.py
-│ ├── urls.py
-│ └── wsgi.py
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
 └── core/
-├── migrations/
-├── templates/core/
-│ ├── base.html
-│ ├── login.html
-│ ├── cadastro.html
-│ ├── home.html
-│ └── treinos.html
-├── static/core/css/style.css
-├── models.py
-├── forms.py
-├── views.py
-└── urls.py
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── models.py
+    ├── forms.py
+    ├── views.py
+    ├── urls.py
+    ├── tests.py
+    │
+    ├── migrations/
+    │   ├── __init__.py
+    │   └── 0001_initial.py
+    │
+    ├── templates/core/
+    │   ├── base.html
+    │   ├── landing.html
+    │   ├── login.html
+    │   ├── register.html
+    │   ├── home.html
+    │   └── trainings.html
+    │
+    └── static/core/
+        └── css/
+            └── style.css
 ```
 
 ---
 
-## How to Run
+## Como Executar o Projeto
 
-**Clone the repository**
+### Pré-requisitos
 
-   ```bash
-   git clone https://github.com/xyz-leo/fittrack.git
-   cd fittrack
-   python -m venv venv
-   source venv/bin/activate  # On Linux/Mac
-   venv\Scripts\activate     # On Windows
-   pip install django
-   python manage.py migrate
-   python manage.py runserver
-   ```
-Access the app with your browser at http://localhost:8000
+-   Python 3.12 ou superior instalado
+-   pip (gerenciador de pacotes do Python)
+-   Git
 
-## Notes
+### Passo a Passo
 
-- This is a prototype intended for educational purposes.
-- Authentication is simulated for demonstration and not secure.
-- Data such as user stats and workouts are mocked for presentation.
+1. **Clone o repositório**
+
+    ```bash
+    git clone https://github.com/xyz-leo/fittrack.git
+    cd fittrack
+    ```
+
+2. **Crie e ative um ambiente virtual**
+
+    No Windows (PowerShell):
+
+    ```powershell
+    # Primeiro, crie o ambiente virtual
+    python -m venv venv
+
+    # Depois, ative o ambiente virtual
+    .\venv\Scripts\Activate.ps1
+    ```
+
+    > **Nota para Windows**: Se você receber um erro de política de execução no PowerShell, use uma das seguintes alternativas:
+    >
+    > **Opção 1 (Recomendado)** - Use o Command Prompt (CMD) ao invés do PowerShell:
+    >
+    > ```cmd
+    > # Crie o ambiente virtual
+    > python -m venv venv
+    >
+    > # Ative o ambiente virtual
+    > venv\Scripts\activate.bat
+    > ```
+    >
+    > **Opção 2** - Ou habilite a execução de scripts temporariamente no PowerShell:
+    >
+    > ```powershell
+    > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    > ```
+    >
+    > Depois execute os comandos de criação e ativação normalmente.
+
+    No Linux/Mac:
+
+    ```bash
+    # Crie o ambiente virtual
+    python3 -m venv venv
+
+    # Ative o ambiente virtual
+    source venv/bin/activate
+    ```
+
+3. **Instale as dependências**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Execute as migrações do banco de dados**
+
+    ```bash
+    cd fittrack
+    python manage.py migrate
+    ```
+
+5. **Inicie o servidor de desenvolvimento**
+
+    ```bash
+    python manage.py runserver
+    ```
+
+6. **Acesse a aplicação**
+
+    Abra seu navegador e acesse: `http://localhost:8000`
 
 ---
 
-## Data Model Overview
+## Observações Importantes
 
-### `Student` Model
+-   Este é um protótipo desenvolvido para fins educacionais
+-   A autenticação é simulada para demonstração e **não é segura**
+-   Dados como estatísticas de usuários e treinos são mockados para apresentação
+-   **Não utilize este código em ambiente de produção sem implementar medidas de segurança adequadas**
 
-The `Student` model represents a user within the FitTrack prototype.  
-It stores essential information about the student's physical attributes, training preferences, and login data (for demonstration purposes only).
-```
-| Field | Type | Description |
-|-------|------|--------------|
-| `full_name` | `CharField` | The student's complete name. |
-| `email` | `EmailField` (unique) | Used as a unique identifier for login. |
-| `password` | `CharField` | Stored in plaintext for simplicity — **not secure** and only acceptable in prototypes. |
-| `height_cm` | `PositiveIntegerField` | Height in centimeters (optional). |
-| `weight_kg` | `DecimalField` | Weight in kilograms, supports decimal values (optional). |
-| `age` | `PositiveIntegerField` | Student’s age (optional). |
-| `level` | `CharField` with choices | Indicates training level: *Beginner*, *Intermediate*, or *Advanced*. |
-| `frequency_per_week` | `PositiveIntegerField` | How many times per week the student trains (default: 3). |
-| `objective` | `CharField` with choices | Defines the student’s fitness goal: *Mass Gain*, *Fat Loss*, or *Maintenance*. |
-| `created_at` | `DateTimeField` | Automatically stores the date/time when the record was created. |
-
-**Helper methods:**
-
-- `first_name()`: Returns the student's first name, extracted from `full_name`.
-- `__str__()`: Returns a readable string representation, e.g. `John Doe <john@example.com>`.
-```
 ---
 
-## Template Integration
+## Modelo de Dados
 
-The data from the `Student` model is passed from Django views to the templates using the template context.  
-Inside the template, Django’s template language is used to display data dynamically.
+### Modelo `Student`
 
-Example snippet from a template:
+O modelo `Student` representa um usuário dentro do protótipo FitTrack.  
+Armazena informações essenciais sobre os atributos físicos do estudante, preferências de treinamento e dados de login (apenas para fins de demonstração).
+
+| Campo                | Tipo                    | Descrição                                                                       |
+| -------------------- | ----------------------- | ------------------------------------------------------------------------------- |
+| `full_name`          | `CharField`             | Nome completo do estudante                                                      |
+| `email`              | `EmailField` (único)    | Usado como identificador único para login                                       |
+| `password`           | `CharField`             | Armazenado em texto simples — **não seguro**, aceitável apenas em protótipos    |
+| `height_cm`          | `PositiveIntegerField`  | Altura em centímetros (opcional)                                                |
+| `weight_kg`          | `DecimalField`          | Peso em quilogramas, suporta valores decimais (opcional)                        |
+| `age`                | `PositiveIntegerField`  | Idade do estudante (opcional)                                                   |
+| `level`              | `CharField` com choices | Indica nível de treinamento: _Iniciante_, _Intermediário_ ou _Avançado_         |
+| `frequency_per_week` | `PositiveIntegerField`  | Quantas vezes por semana o estudante treina (padrão: 3)                         |
+| `objective`          | `CharField` com choices | Define o objetivo fitness: _Ganho de Massa_, _Perda de Gordura_ ou _Manutenção_ |
+| `created_at`         | `DateTimeField`         | Armazena automaticamente a data/hora de criação do registro                     |
+
+**Métodos auxiliares:**
+
+-   `first_name()`: Retorna o primeiro nome do estudante, extraído de `full_name`
+-   `__str__()`: Retorna uma representação legível, ex: `João Silva <joao@exemplo.com>`
+
+---
+
+## Integração com Templates
+
+Os dados do modelo `Student` são passados das views do Django para os templates usando o contexto do template.  
+Dentro do template, a linguagem de template do Django é usada para exibir dados dinamicamente.
+
+Exemplo de trecho de um template:
 
 ```html
 <h2>{{ student.first_name }}</h2>
-<p class="muted">
-  {{ student.level|title }} • {{ student.objective|cut:"_"|title }}
-</p>
+<p class="muted">{{ student.level|title }} • {{ student.objective|cut:"_"|title }}</p>
 ```
 
-**Explanation:**
+**Explicação:**
 
-- `{{ student.first_name }}`  
-  Calls the model method `first_name()` and displays only the first word of the `full_name` field.  
-  Example: `"John Doe"` → `"John"`.
+-   `{{ student.first_name }}`  
+    Chama o método `first_name()` do modelo e exibe apenas a primeira palavra do campo `full_name`.  
+    Exemplo: `"João Silva"` → `"João"`
 
-- `{{ student.level|title }}`  
-  Uses Django’s built-in `title` filter to capitalize the first letter of each word.  
-  Example: `"beginner"` → `"Beginner"`.
+-   `{{ student.level|title }}`  
+    Usa o filtro embutido `title` do Django para capitalizar a primeira letra de cada palavra.  
+    Exemplo: `"beginner"` → `"Beginner"`
 
-- `{{ student.objective|cut:"_"," "|title }}`  
-  First replaces underscores (`_`) with spaces (` `), then applies the `title` filter.  
-  Example: `"mass_gain"` → `"Mass Gain"`.
+-   `{{ student.objective|cut:"_"|title }}`  
+    Primeiro substitui underscores (`_`) por espaços, depois aplica o filtro `title`.  
+    Exemplo: `"mass_gain"` → `"Mass Gain"`
 
-These template expressions dynamically render student information, applying formatting directly in the HTML layer while keeping the Python model clean and focused on data.
+Essas expressões de template renderizam dinamicamente as informações do estudante, aplicando formatação diretamente na camada HTML, mantendo o modelo Python limpo e focado nos dados.
 
+---
 
-## CSS and Design Approach
+## CSS e Abordagem de Design
 
-The CSS was written with a **mobile-first** mindset, ensuring the interface looks clean and functional on small screens, such as smartphones, before scaling up to desktop layouts.  
-The design uses a **light theme** with **orange as the highlight color**, combined with **neutral grays** for balance. The typography is based on **Poppins**, a friendly and modern sans-serif font that provides good readability and visual appeal.
+O CSS foi escrito com uma mentalidade **mobile-first**, garantindo que a interface pareça limpa e funcional em telas pequenas, como smartphones, antes de escalar para layouts desktop.  
+O design usa um **tema claro** com **laranja como cor de destaque**, combinado com **cinzas neutros** para equilíbrio. A tipografia é baseada em **Poppins**, uma fonte sans-serif amigável e moderna que proporciona boa legibilidade e apelo visual.
 
-Key design choices:
-- **Responsive layout:** Uses flexible containers and relative units (`%`, `rem`) to adapt to different screen sizes.  
-- **Hamburger menu:** A simplified icon that appears on both mobile and desktop for consistency.  
-- **Consistent spacing:** Padding and margins ensure proper breathing space between elements.  
-- **Card-based sections:** Information such as the user’s plan and training summary is presented inside rounded boxes with soft shadows to improve visual hierarchy.  
-- **Minimalist color palette:** Light backgrounds, orange accents, and black text for optimal contrast and readability.
+Principais escolhas de design:
 
-The goal was to keep the CSS **simple, readable, and easy to extend**, while still achieving a visually cohesive result suitable for an MVP demonstration.
+-   **Layout responsivo**: Usa containers flexíveis e unidades relativas (`%`, `rem`) para se adaptar a diferentes tamanhos de tela
+-   **Menu hambúrguer**: Ícone simplificado que aparece tanto em mobile quanto em desktop para consistência
+-   **Espaçamento consistente**: Padding e margins garantem espaço adequado entre elementos
+-   **Seções baseadas em cards**: Informações como o plano do usuário e resumo de treinos são apresentadas dentro de caixas arredondadas com sombras suaves para melhorar a hierarquia visual
+-   **Paleta de cores minimalista**: Fundos claros, acentos laranjas e texto preto para contraste e legibilidade ideais
+
+O objetivo foi manter o CSS **simples, legível e fácil de estender**, enquanto ainda alcança um resultado visualmente coeso adequado para uma demonstração de MVP.
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido para fins educacionais como parte de um projeto acadêmico.
