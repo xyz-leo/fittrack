@@ -278,6 +278,44 @@ O objetivo foi manter o CSS **simples, legível e fácil de estender**, enquanto
 
 ---
 
+## Versionamento e Changelog
+
+Este projeto utiliza [Semantic Versioning](https://semver.org/lang/pt-BR/) para controle de versões:
+
+-   **MAJOR** (X.0.0): Mudanças incompatíveis na API ou breaking changes
+-   **MINOR** (0.X.0): Novas funcionalidades mantendo compatibilidade
+-   **PATCH** (0.0.X): Correções de bugs e pequenas melhorias
+
+### Sistema Automatizado
+
+O projeto possui um sistema automatizado de versionamento e changelog via GitHub Actions:
+
+1. **Quando um PR é mergeado na branch `main`**:
+
+    - Uma nova versão é criada automaticamente
+    - Uma release é publicada no GitHub
+    - O `CHANGELOG.md` é atualizado com as alterações
+
+2. **Como funciona o versionamento**:
+
+    - Use **labels** no PR para controlar o tipo de versão:
+        - `major` ou `breaking`: incrementa versão MAJOR (ex: 1.0.0 → 2.0.0)
+        - `feature` ou `enhancement`: incrementa versão MINOR (ex: 1.0.0 → 1.1.0)
+        - Sem label ou outros labels: incrementa versão PATCH (ex: 1.0.0 → 1.0.1)
+
+3. **Boas práticas para PRs**:
+    - Adicione labels apropriadas ao PR
+    - Escreva um título descritivo
+    - Documente as mudanças no corpo do PR
+    - Essas informações serão incluídas na release e no changelog
+
+### Visualizar Histórico
+
+-   **Releases**: [GitHub Releases](https://github.com/xyz-leo/fittrack/releases)
+-   **Changelog Completo**: Consulte o arquivo [CHANGELOG.md](CHANGELOG.md)
+
+---
+
 ## Licença
 
 Este projeto foi desenvolvido para fins educacionais como parte de um projeto acadêmico.
